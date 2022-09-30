@@ -1,1 +1,1 @@
-web: gunicorn SpotifyDj.wsgi
+web: gunicorn wsgi.py
