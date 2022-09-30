@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-eb4##ic#p#_xrefx1gd8mylj!2*sw9)7-s1esq%2ex6bz=wz$#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['spotify-dj-project.herokuapp.com']
 
 
 # Application definition
