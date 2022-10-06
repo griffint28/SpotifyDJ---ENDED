@@ -9,8 +9,13 @@ from django.http import JsonResponse
 from django.conf import settings
 from .models import *
 
-def index(request):
+def homepage(request):
         return render(request=request, template_name= "../templates/SpotifyDjApp/homepage.html")
-# Create your views here.
+
+def login(request):
+        return render(request=request, template_name= "../templates/SpotifyDjApp/Login.html")
+
+def list(request):
+        return render(request=request, template_name= "../templates/SpotifyDjApp/list.html")
 
 #SpotifyDjSite/SpotifyDjApp/templates/SpotifyDjApp/homepage.html
