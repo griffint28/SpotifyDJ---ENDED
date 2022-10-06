@@ -18,4 +18,7 @@ def login(request):
 def list(request):
         return render(request=request, template_name= "../templates/SpotifyDjApp/list.html")
 
+def spotifytest(request):
+        return render(request=request, template_name= "../templates/SpotifyDjApp/spotifytest.html")
+
 #SpotifyDjSite/SpotifyDjApp/templates/SpotifyDjApp/homepage.html
