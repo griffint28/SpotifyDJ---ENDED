@@ -7,4 +7,6 @@ urlpatterns = [
     path('login', views.login, name='login'),
     path('list', views.list, name='list'),
     path('spotifytest', views.spotifytest, name='spotifytest'),
+    path('spotifyplayer', views.spotifyplayer, name='spotifyplayer'),
+
 ]

@@ -17,32 +17,6 @@ def login(request):
 def list(request):
         return render(request=request, template_name= "../templates/SpotifyDjApp/list.html")
 
-def spotifytest2(request):
-        base_url = 'https://api.spotify.com/v1/'
-        client_id = 'ee9fc019f133485296b33e83b6e674f9'
-        client_secret = '519f3c8ab9e646a5bdc484a6a643b2aa'
-        auth_url = 'https://accounts.spotify.com/api/token'
-        data = {
-                'grant_type': 'client_credentials',
-                'client_id': client_id,
-                'client_secret': client_secret,
-        }
-
-        auth_response = requests.post(auth_url, data=data)
-
-        access_token = auth_response.json().get('access_token')
-
-        if access_token:
-                headers = {
-                        'Authorization': 'Bearer {}'.format(access_token)
-                }
-
-                return HttpResponse("text")
-        else:
-                print("error")
-                return render(request=request, template_name= "../templates/SpotifyDjApp/spotifytest.html")
-
-
 def spotifytest(request):
         cid = 'ee9fc019f133485296b33e83b6e674f9'
         secret = '519f3c8ab9e646a5bdc484a6a643b2aa'
@@ -68,3 +42,7 @@ def spotifytest(request):
         else:
                 return render(request=request, template_name= "../templates/SpotifyDjApp/spotifytest.html")
 
+def spotifyplayer(request):
+        return render(request=request, template_name= "../templates/SpotifyDjApp/spotifyplayer.html")
+
+ 
