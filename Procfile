@@ -1,1 +1,1 @@
-web: gunicorn SpotifyDjSite/wsgi.py
+web: gunicorn SpotifyDjSite/SpotifyDjSite/wsgi.py
