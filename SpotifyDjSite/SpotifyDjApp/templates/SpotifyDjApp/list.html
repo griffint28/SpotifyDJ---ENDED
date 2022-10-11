@@ -10,17 +10,17 @@
   font-family: "Poppins", sans-serif;
 }
 body{
-    margin: 0;
+    
     padding: 0;
     font-family: montserrat;
     background: linear-gradient(120deg,#2980b9, #8e44ad);
-    height: 100vh;
-    overflow: hidden;
+    height: 100%;
+    overflow: hide;
 }
 .center{
-  position: fixed;
+  position: absolute;
   top: 62%;
-  left: 50%;
+  left: 65%;
   transform: translate(-50%, -50%);
   width: 100%;
   border-radius: 20px;
@@ -74,6 +74,10 @@ table {
     border-radius: 20px;
   }
 .topnav {
+    position: absolute;
+    left: 0%;
+    top: 0%;
+    width: 100%;
     background-color: solid purple;
     border: 3px solid black;
     overflow: hidden;
@@ -102,14 +106,29 @@ table {
     background-color: #2990b9;
     color:white;
 }
+h2{
+    position: relative;
+    left: -275px;
+    top: 50px;
+    
+    
+}
+#wrapper {
+    margin-left:auto;
+    margin-right:auto;
+    width:960px;
+}
 
 </style>
     <Title>Songs</Title>
 </head>
-
+<div id = "wrapper">
 <body>
+  <h2>
+    <img src ="pics/logo.png" alt="SpotifyDJ Logo" width="175" height="175">
+</h2>
     <div class="topnav">
-        <a href = "#homepage">HOME</a> 
+        <a href="#home">HOME</a>
         <a class="active" href="#recommendations">RECOMMENDATIONS</a>
         <a href="#stats">STATS</a>
         <a href="#about">ABOUT</a>
@@ -191,4 +210,5 @@ table {
           </table>
     </div>
 </body>
+</div>
 </html>
