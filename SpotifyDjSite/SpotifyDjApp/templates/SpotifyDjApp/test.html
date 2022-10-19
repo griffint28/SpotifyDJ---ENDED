@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+    <header>
+        <style>
+
+            /* List */
+
+body{
+  
+  background-image: linear-gradient(to right, rgb(54, 158, 232), rgb(116, 14, 132));
+  overflow: hidden;
+}
+ul {
+  counter-reset: index;  
+  padding: 0;
+  max-width: 300px;
+  column-count: 3;
+  column-gap: 40px;
+}
+
+/* List element */
+li {
+  counter-increment: index; 
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  box-sizing: border-box;
+  font-family: Sans-Serif;
+  font-size: 20px;
+}
+
+
+/* Element counter */
+li::before {
+  content: counters(index, ".", decimal-leading-zero);
+  font-size: 1.5rem;
+  text-align: right;
+  font-weight: bold;
+  min-width: 50px;
+  padding-right: 12px;
+  font-variant-numeric: tabular-nums;
+  align-self: flex-start;
+  background-image: linear-gradient(to bottom, rgb(116, 14, 132), rgb(146, 15, 166));
+  background-attachment: fixed;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+/* Element separation */
+
+h1{
+  position: fixed;
+  top: 10%;
+  left: 5%
+}
+h2{
+  position: fixed;
+  top: 20%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.logo{
+  position: relative;
+  right:-1345px;
+  top: 40px;
+  overflow: hidden;
+  
+}
+.player{
+  position: relative;
+  right:-1345px;
+  top: 100px;
+  overflow: hidden;
+}
+
+.topnav {
+    position: fixed;
+    left: 0%;
+    top: 0%;
+    width: 100%;
+    background-color: solid purple;
+    border: 3px solid black;
+    overflow: hidden;
+  }
+.topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: left;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+.topnav b {
+    float: right;
+    color: #f2f2f2;
+    text-align: left;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+.topnav a.active {
+    background-color: #2990b9;
+    color:white;
+}
+
+        </style>
+        <meta http-equiv="CONTENT-TYPE" content="text/html; charset=utf-8">
+        
+    </header>
+    
+    <body>
+        <div class="topnav">
+            <a href="home">HOME</a>
+            <a class="active" href="#recommendations">RECOMMENDATIONS</a>
+            <a href="#stats">STATS</a>
+            <a href="#about">ABOUT</a>
+            <b>SpotifyDJ</b>
+        </div> 
+        <h1>
+          Top Songs 
+        </h1>
+        <div class = "logo">
+          <img src ="../static/dj_app/media/logo.png" alt="SpotifyDJ Logo" width="175" height="175">
+        </div>
+        <h2>
+        
+        {%for item in list%}
+            <li>{{item}}</li>
+        {% endfor %}
+        </h2>
+        <div class = "player">
+        <button id="togglePlay">Toggle Play</button>
+
+        <script src="https://sdk.scdn.co/spotify-player.js"></script>
+        <script>
+            window.onSpotifyWebPlaybackSDKReady = () => {
+                const token = 'BQDugarjw8IVePbxoSjaSKIpX68bMqlFsXh1toXX8-fB_RMblgn5o0_fumaYD9MjFyXr4sEF8f4W-G2b8JiD4jpff6EzJODKS7_M7eFjUh-zC6l4N4lCsx655eXQuKSHv7riX8VnQlftNE3nfDNuY_LfFLvwjrNSLJlflmZo7vM5g-lR56E2kweRPT_jKw51LQN_';
+                const player = new Spotify.Player({
+                    name: 'Web Playback SDK Quick Start Player',
+                    getOAuthToken: cb => { cb(token); },
+                    volume: 0.5
+                });
+    
+                // Ready
+                player.addListener('ready', ({ device_id }) => {
+                    console.log('Ready with Device ID', device_id);
+                });
+    
+                // Not Ready
+                player.addListener('not_ready', ({ device_id }) => {
+                    console.log('Device ID has gone offline', device_id);
+                });
+    
+                player.addListener('initialization_error', ({ message }) => {
+                    console.error(message);
+                });
+    
+                player.addListener('authentication_error', ({ message }) => {
+                    console.error(message);
+                });
+    
+                player.addListener('account_error', ({ message }) => {
+                    console.error(message);
+                });
+    
+                document.getElementById('togglePlay').onclick = function() {
+                  player.togglePlay();
+                };
+    
+                player.connect();
+            }
+        </script>
+        </div>
+    </body>
+</html>

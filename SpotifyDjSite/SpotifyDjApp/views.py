@@ -45,4 +45,6 @@ def spotifytest(request):
 def spotifyplayer(request):
         return render(request=request, template_name= "../templates/SpotifyDjApp/spotifyplayer.html")
 
+def test(request):
+        return render(request=request, template_name= "../templates/SpotifyDjApp/test.html")
  
