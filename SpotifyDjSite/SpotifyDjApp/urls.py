@@ -9,5 +9,6 @@ urlpatterns = [
     path('spotifytest', views.spotifytest, name='spotifytest'),
     path('spotifyplayer', views.spotifyplayer, name='spotifyplayer'),
     path('suggestions', views.suggestions, name='suggestions'),
+    path('artists', views.artists, name='artists'),
 
 ]
