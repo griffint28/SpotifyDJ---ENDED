@@ -27,13 +27,13 @@ def topsongs(request):
         listDance = []
         listEnergy = []
         listAcoustic = []
-        listTempo = []
+        listLoudness = []
         for song in listId:
                 topSongStats = songStats(song)
                 listDance.append(topSongStats["danceability"])
                 listEnergy.append(topSongStats["energy"])
                 listAcoustic.append(topSongStats["acousticness"])
-                listTempo.append(topSongStats["tempo"])
+                listLoudness.append(topSongStats["loudness"])
 
         return render(request, "../templates/SpotifyDjApp/topsongs.html", {"list":list})
 
