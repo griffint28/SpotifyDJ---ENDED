@@ -210,15 +210,15 @@ img {
                 <input id="username" type="text" class="form-control" placeholder="username"required>
  
                 <input id="password" type="text" class="form-control" placeholder="password"required>
- 
+<!--  
                 <input id="email" type="text" class="form-control" placeholder="email"required>
  
                 <input id="first_name" type="text" class="form-control" placeholder="last_name"required>
  
                 <input id="last_name" type="text" class="form-control" placeholder="last_name"required>
- 
+  -->
                 <div 
-                    onclick="location.href= '/topsongs'"
+                    onclick = signupUser()
                 
                     style="cursor: pointer";> Create account
                 </div>
@@ -293,11 +293,11 @@ img {
     <script>
         
         function signupUser () {
-            const form = document.getElementById('user-form');
-            const formData = new FormData(form);
+            var formData = new FormData();
 
-            window.alert("Hello World");
+            formData.append("username", document.getElementById('username').value);
 
+            window.alert(formData["username"]);
             // let signUpInfo = {
             //     "username": $("#username").val(),
             //     "password": $("#password").val(),
