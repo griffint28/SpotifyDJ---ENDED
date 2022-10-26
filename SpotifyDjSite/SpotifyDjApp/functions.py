@@ -164,7 +164,6 @@ def recommendations(listTopSongs, listTopSongsID, listTopSongsArtistsID, listGen
                 r = requests.get(BASE_URL + 'recommendations/' +
                         limit + market + seed_artists + seed_genres + seed_tracks, headers=headers)
                 r = r.json()
-                print(r)
                 recommendations.append(r['tracks'][0]['name'] + " - " + r['tracks'][0]['artists'][0]['name'])
 
         

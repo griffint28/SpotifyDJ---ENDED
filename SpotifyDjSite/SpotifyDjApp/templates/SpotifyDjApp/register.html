@@ -217,8 +217,10 @@ img {
  
                 <input id="last_name" type="text" class="form-control" placeholder="last_name"required>
  
-                <div>
-                    <button onclick="signupUser()" >Sign Up</button>
+                <div 
+                    onclick="location.href= '/topsongs'"
+                
+                    style="cursor: pointer";> top songs
                 </div>
             </form>
         </div>
@@ -293,7 +295,6 @@ img {
         function signupUser () {
             const form = document.getElementById('user-form');
             const formData = new FormData(form);
-            window.alert(formData["username"])
 
             //window.alert("Hello World");
 
