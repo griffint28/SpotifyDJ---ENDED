@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
     <header>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      {%  load static %}
+
+      <!-- jQuery first, then Popper.js, then Bootstrap JS, then Bootstrap icons -->
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js"> </script>
+      {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>#}
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>    <link rel="icon" href="https://aux2.iconspalace.com/uploads/pencilcase-1-icon-256.png">
+
         <style>
 
             /* List */
@@ -26,8 +35,9 @@ li {
   padding: 12px 0;
   box-sizing: border-box;
   font-family: Sans-Serif;
-  font-size: 20px;
+  font-size: 16px;
 }
+
 
 
 /* Element counter */
@@ -61,6 +71,16 @@ h2{
   width: 100%;
   overflow: hidden;
 }
+h3{
+  position: fixed;
+  right: 150px;
+  top: 7%;
+}
+button{
+  position: fixed;
+  right: 150px;
+  top: 15%;
+}
 
 .logo{
   position: relative;
@@ -69,12 +89,7 @@ h2{
   overflow: hidden;
   
 }
-.player{
-  position: relative;
-  right:-1345px;
-  top: 100px;
-  overflow: hidden;
-}
+
 
 .topnav {
     position: fixed;
@@ -110,6 +125,45 @@ h2{
     color:white;
 }
 
+.div1{
+  width: 30%;
+  float: left;
+  
+
+}
+.div1 li::before {
+  content: counters(index, ".", decimal-leading-zero);
+  font-size: 1.5rem;
+  text-align: right;
+  font-weight: bold;
+  min-width: 50px;
+  padding-right: 12px;
+  font-variant-numeric: tabular-nums;
+  align-self: flex-start;
+  background-image: linear-gradient(to bottom, rgb(116, 14, 132), rgb(146, 15, 166));
+  background-attachment: fixed;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.div2{
+  width: 15%;
+  float:left;
+}
+.div3{
+  width: 15%;
+  float: left;
+
+}
+.div4{
+  width: 15%;
+  float:left;
+}
+.div5{
+  width: 15%;
+  float: left;
+}
+
         </style>
         <meta http-equiv="CONTENT-TYPE" content="text/html; charset=utf-8">
         
@@ -122,60 +176,81 @@ h2{
           <a href="{% url 'suggestions' %}">RECOMMENDATIONS</a>
             <b>SpotifyDJ</b>
         </div> 
-        <h1>
-          Top Songs 
-        </h1>
         <div class = "logo">
           <img src ="../static/dj_app/media/logo.png" alt="SpotifyDJ Logo" width="175" height="175">
         </div>
         <h2>
-        
-        {%for item in list%}
+        <div class = "div1">
+          <h1>
+            Top Songs 
+          </h1>
+        {%for item in list.songs%}
             <li>{{item}}</li>
         {% endfor %}
-        </h2>
-        <div class = "player">
-        <button id="togglePlay">Toggle Play</button>
-
-        <script src="https://sdk.scdn.co/spotify-player.js"></script>
-        <script>
-            window.onSpotifyWebPlaybackSDKReady = () => {
-                const token = 'BQDugarjw8IVePbxoSjaSKIpX68bMqlFsXh1toXX8-fB_RMblgn5o0_fumaYD9MjFyXr4sEF8f4W-G2b8JiD4jpff6EzJODKS7_M7eFjUh-zC6l4N4lCsx655eXQuKSHv7riX8VnQlftNE3nfDNuY_LfFLvwjrNSLJlflmZo7vM5g-lR56E2kweRPT_jKw51LQN_';
-                const player = new Spotify.Player({
-                    name: 'Web Playback SDK Quick Start Player',
-                    getOAuthToken: cb => { cb(token); },
-                    volume: 0.5
-                });
-    
-                // Ready
-                player.addListener('ready', ({ device_id }) => {
-                    console.log('Ready with Device ID', device_id);
-                });
-    
-                // Not Ready
-                player.addListener('not_ready', ({ device_id }) => {
-                    console.log('Device ID has gone offline', device_id);
-                });
-    
-                player.addListener('initialization_error', ({ message }) => {
-                    console.error(message);
-                });
-    
-                player.addListener('authentication_error', ({ message }) => {
-                    console.error(message);
-                });
-    
-                player.addListener('account_error', ({ message }) => {
-                    console.error(message);
-                });
-    
-                document.getElementById('togglePlay').onclick = function() {
-                  player.togglePlay();
-                };
-    
-                player.connect();
-            }
-        </script>
+      </div>
+        <div class = "div2">
+        {%for item in list.dance%}
+            <li>{{item}}</li>
+        {% endfor %}
         </div>
+        <div class = "div3">
+        {%for item in list.energy%}
+            <li>{{item}}</li>
+        {% endfor %}
+        </div>
+        <div class = "div4">
+        {%for item in list.acoustic%}
+            <li>{{item}}</li>
+        {% endfor %}
+        </div>
+        <div class = "div5">
+        {%for item in list.loud%}
+            <li>{{item}}</li>
+        {% endfor %}
+        </div>
+        </h2>
+        <h3>Try Songs</h3>
+    <button id="togglePlay">Toggle Play</button>
+
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <script>
+
+        window.onSpotifyWebPlaybackSDKReady = () => {
+            const token = '[BQDUBsSSW5qdTZB90pA9gfl1nwvxIcZYaMhdLPNkt9KDY0sITVynGM-xHQFrJ5LT-Cc0_FeuE1R0YLhaK_uDs1dG0VBaVWEUYL9QZADRwLZ0UBKZ0b3wqFXCzTJtlAk9tva-m-orHnywnq1_IWsCpNNFYGjb-S18Ygo20h54cX6Aj1eDoWcE6FIqND_4aRXp4QGg]';
+            const player = new Spotify.Player({
+                name: '362 Project',
+                getOAuthToken: cb => { cb(token); },
+                volume: 0.5
+            });
+
+            // Ready
+            player.addListener('ready', ({ device_id }) => {
+                console.log('Ready with Device ID', device_id);
+            });
+
+            // Not Ready
+            player.addListener('not_ready', ({ device_id }) => {
+                console.log('Device ID has gone offline', device_id);
+            });
+
+            player.addListener('initialization_error', ({ message }) => {
+                console.error(message);
+            });
+
+            player.addListener('authentication_error', ({ message }) => {
+                console.error(message);
+            });
+
+            player.addListener('account_error', ({ message }) => {
+                console.error(message);
+            });
+
+            document.getElementById('togglePlay').onclick = function() {
+              player.togglePlay();
+            };
+
+            player.connect();
+        }
+    </script>
     </body>
 </html>

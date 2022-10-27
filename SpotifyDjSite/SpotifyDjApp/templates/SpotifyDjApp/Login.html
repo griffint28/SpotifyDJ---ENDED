@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        {%  load static %}
+
+        <!-- jQuery first, then Popper.js, then Bootstrap JS, then Bootstrap icons -->
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"> </script>
+        {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>#}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>   
+
         <meta charset="utf-8">
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap');-->
@@ -205,24 +214,36 @@ img {
         
         <div class="center">
             <h1>login</h1>
-            <form method="post">
-                <div class="txt_field">
-                    <input type="text" required>
-                    <span></span>
-                    <label>Username</label>
+            <form>
+                <div class="container-fluid">
+                    <div class="row pt-5 justify-content-md-center bold-font-inter">
+                    </div>
+                    <div class="row py-5">
+                        <div class="col"></div>
+                        <div class="col py-5 p-3 shadow-lg line ">
+                            <div class="col">
+                                <form>{% csrf_token %} </form>
+                                <div>
+                                 <input id="username" type="text" class="form-control" placeholder="username" aria-describedby="username" required>
+                                 <div class="input-group my-3">
+                                  <input id="password" type="password" class="form-control" placeholder="password" aria-label="Recipient's username" aria-describedby="button-addon2" required>
+                                  <button onclick="viewPass()" class="btn btn-outline-secondary bi bi-eye-slash" type="button" id="togglePassword"></button>
+                                 </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col"></div>
+                                <div class="col text-center">
+                                  <button onclick="login();" type="button" class="btn btn-dark btn-lg">Log In</button>
+                                  <button onclick="toRegister();" type="button" class="btn btn-dark btn-lg">Create Account</button>
+                                </div>
+                                <div class="col"></div>
+                            </div>
+                        </div>
+                        <div class="col"></div>
+                    </div>
                 </div>
-                <div class="txt_field">
-                    <input type="password" required>
-                    <span></span>
-                    <label>Password</label>
-                </div>
-                <div 
-                    onclick="location.href= '/topsongs'"
-                
-                    style="cursor: pointer";> Login
-                </div>
-
-        </form>
+              </form>
         </div>
         <div class="slider">
             <div class="slide-track">
@@ -254,7 +275,6 @@ img {
                 <div class="slide">
                     <img src='../static/dj_app/media/elvis.jpg'/>
                 </div>
-    
                 <div class="slide">
                     <img src='../static/dj_app/media/cash.jpg'/>
                 </div>
@@ -289,7 +309,65 @@ img {
     
     </body>
     
-    
-    
+    <script>
+        const viewPass = () =>{
+        const pass = document.querySelector("#password")
+        const type = pass.getAttribute("type") === "password" ? "text" : "password"
+        pass.setAttribute("type", type)
+    }
+    const toRegister = () =>{
+        window.location.href = "{% url 'register'%}"
+    }
+
+    /*
+    args: none
+    return: none
+    function: makes ajax call to urls => calls the sign up login function in views => authenticates and logs user in =>
+    => redirects them to profile page. (if unsuccessful prompt them to re-enter information)
+    */
+    const login = () => {
+        let loginInfo = {
+            "username": $("#username").val(),
+            "password": $("#password").val()}
+
+        // send it as a dictionary ex:
+        // "username" : "username"
+
+        // let backend from
+        $.ajax({
+            url: "loginGet",
+            method: "POST",
+            datatype: "json",
+            data: JSON.stringify({
+                credentials: loginInfo
+            }),
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            success: (json) => {
+                // maybe check the result of json from the back. write if statement and do something depending on that result
+                // use result key that is either failed or successful
+                // stay consistent
+                // catch errors
+                console.log("call successful")
+                let response = json.message
+                if (response === 0){
+                    window.location.href="{% url 'topsongs' %}"
+                }else{
+                    alert("log in unsuccessful")
+                }
+            }, error: () =>{
+                console.log("call unsuccessful")
+                alert("log in unsuccessful")
+            }
+
+        })
+
+        loginInfo = {
+            "username": "",
+            "password": ""}
+
+    }
+    </script>
 
 </html>

@@ -14,7 +14,9 @@ urlpatterns = [
     path('topartists', views.topartists, name='topartists'),
     path('suggestions', views.suggestions, name='suggestions'),
 
-    path('post/ajax/registerPost', views.registerPost, name='registerPost'),
+    path('registerPost', views.registerPost, name='registerPost'),
+    path('loginGet', views.loginGet, name='loginGet'),
+
 
 
 ]

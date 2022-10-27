@@ -1,7 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head>
-        <meta charset="utf-8">
+        <meta charset="UTF-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        {%  load static %}
+
+        <!-- jQuery first, then Popper.js, then Bootstrap JS, then Bootstrap icons -->
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"> </script>
+        {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>#}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>  
+
+        <title>Sign Up Page</title>
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap');-->
 *{
@@ -192,37 +202,55 @@ img {
 }
 
 
-
-
-
-        </style>
-        <title>SpotifyDJ Create an acccount</title>
+    </style>
     </head>
     <body>
         <h2>
             <img src ="../static/dj_app/media/logo.png" alt="SpotifyDJ Logo" width="75" height="175">
         </h2>
-        
         <div class="center">
             <h1>Account creation</h1>
-            <form id = "user-form" >
-                
-                <input id="username" type="text" class="form-control" placeholder="username"required>
- 
-                <input id="password" type="text" class="form-control" placeholder="password"required>
-<!--  
-                <input id="email" type="text" class="form-control" placeholder="email"required>
- 
-                <input id="first_name" type="text" class="form-control" placeholder="last_name"required>
- 
-                <input id="last_name" type="text" class="form-control" placeholder="last_name"required>
-  -->
-                <div 
-                    onclick = signupUser()
-                
-                    style="cursor: pointer";> Create account
-                </div>
-            </form>
+            <body>
+                <form>
+                  <div class="container-fluid">
+                      <div class="row pt-5 justify-content-md-center bold-font-inter">
+                      </div>
+                      <div class="row py-5">
+                          <div class="col"></div>
+                          <div class="col py-5 p-3 shadow-lg line ">
+                              <div class="col">
+                                  <form>{% csrf_token %} </form>
+                                  <div class="mb-3">
+                                    <input id="fname" type="text" class="form-control" placeholder="first name" aria-describedby="first name" required>
+                                  </div>
+                                  <div class="my-3">
+                                      <input id="lname" type="text" class="form-control" placeholder="last name" aria-describedby="last name" required>
+                                  </div>
+                                  <div class="mb-3">
+                                   <input id="email" type="text" class="form-control" placeholder="name@example.com" aria-describedby="email" required>
+                                  </div>
+                                  <div>
+                                   <input id="username" type="text" class="form-control" placeholder="username" aria-describedby="username" required>
+                                   <div class="input-group my-3">
+                                    <input id="password" type="text" class="form-control" placeholder="password" aria-label="Recipient's username" aria-describedby="button-addon2" required>
+                                    <button onclick="viewPass()" class="btn btn-outline-secondary bi bi-eye-slash" type="button" id="togglePassword"></button>
+                                   </div>
+                                  </div>
+                              </div>
+                              <div class="row">
+                                  <div class="col"></div>
+                                  <div class="col text-center">
+                                    <button onclick="signupUser();" type="button" class="btn btn-dark btn-lg">Sign Up</button>
+                                    <button onclick="toLogin();" type="button" class="btn btn-dark btn-lg">Already have an account? Login</button>
+                                </div>
+                                  <div class="col"></div>
+                              </div>
+                          </div>
+                          <div class="col"></div>
+                      </div>
+                  </div>
+                </form>
+                </body>
         </div>
 
         <div class="slider">
@@ -289,61 +317,84 @@ img {
 
     </body>
     
+  <script>
 
-    <script>
-        
-        function signupUser () {
-            var formData = new FormData();
+    const viewPass = () =>{
+        const pass = document.querySelector("#password")
 
-            formData.append("username", document.getElementById('username').value);
+        const type = pass.getAttribute("type") === "password" ? "text" : "password"
 
-            window.alert(formData["username"]);
-            // let signUpInfo = {
-            //     "username": $("#username").val(),
-            //     "password": $("#password").val(),
-            //     "email": $("#email").val(),
-            //     "first_name": $("#first_name").val(),
-            //     "last_name": $("#last_name").val()
-            // }
-    
-            // $.ajax({
-            //     url: "registerPost",
-            //     method: "POST",
-            //     datatype: "json",
-            //     data: JSON.stringify({
-            //         credentials: signUpInfo
-            //     }),
-            //     headers: {
-            //         "X-CSRFToken": "{{ csrf_token }}"
-            //     },
-            //     success: (json) => {
-            //         // maybe check the result of json from the back. write if statement and do something depending on that result
-            //         // use result key that is either failed or successful
-            //         // stay consistent
-            //         // catch errors
-            //         window.alert("call successful")
-            //         let response = json.message
-            //         //{#let response = 1;#}
-            //         if (response === 0){
-            //             console.log("sign up successful")
-            //             //window.location.href="{% url "login" %}"
-    
-            //         }else{
-            //             console.log("sign up unsuccessful")
-            //             alert("sign up unsuccessful please use correct input")
-    
-            //         }
-            //     }, error: () =>{
-            //         console.log("call unsuccessful")
-            //         alert("the call to the back end was unsuccessful")
-            //     }
-    
-            //  })
-        
+        pass.setAttribute("type", type)
+
+    }
+    const toLogin = () =>{
+        window.location.href = "{% url 'login'%}"
+    }
+
+
+    const signupUser = () => {
+        let signUpInfo = {
+            "username": $("#username").val(),
+            "fname": $("#fname").val(),
+            "lname": $("#lname").val(),
+            "email": $("#email").val(),
+            "password": $("#password").val()
         }
-     
-    
-    </script>
+
+        $.ajax({
+            url: "registerPost",
+            method: "POST",
+            datatype: "json",
+            data: JSON.stringify({
+                credentials: signUpInfo
+            }),
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            success: (json) => {
+                console.log("call successful")
+                let response = json.message
+                if (response === 0){
+                    console.log("sign up successful")
+                    window.location.href="{% url 'topsongs' %}"
+
+                }else{
+                    console.log("sign up unsuccessful")
+                    alert("Sign up unsuccessful, please use correct input")
+
+                }
+            }, error: () =>{
+                console.log("call unsuccessful")
+                alert("the call to the back end was unsuccessful")
+            }
+
+        })
+
+        signUpInfo = {
+            "username": "",
+            "fname": "",
+            "lname": "",
+            "email": "",
+            "password": ""}
+
+    }
+
+
+
+
+    const toHomePage = () =>{
+        /*
+        args: none
+        ret: none
+        function: this function takes the user to the homepage
+         */
+        window.location.href="{% url 'homepage' %}"
+    }
+
+
+
+</script>
+
 
 </html>
 
