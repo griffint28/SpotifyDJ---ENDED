@@ -9,7 +9,7 @@ import requests
 
 
 
-def topSongsID():
+def topSongsID(timeframe = 'short_term'):
     cid = 'ee9fc019f133485296b33e83b6e674f9'
     secret = '519f3c8ab9e646a5bdc484a6a643b2aa'
 
@@ -26,7 +26,7 @@ def topSongsID():
 
     if auth_token:
             sp = spotipy.Spotify(auth=auth_token['access_token'])
-            results = sp.current_user_top_tracks(limit=10,offset=0,time_range='medium_term')
+            results = sp.current_user_top_tracks(limit=10,offset=0,time_range=timeframe)
             #print(results)
             listTest = []
             for i in range(10):
@@ -35,9 +35,7 @@ def topSongsID():
     else:
             return "error"
 
-
-
-def topSongsArtistsId():
+def topSongsArtistsId(timeframe = 'short_term'):
     cid = 'ee9fc019f133485296b33e83b6e674f9'
     secret = '519f3c8ab9e646a5bdc484a6a643b2aa'
 
@@ -54,7 +52,7 @@ def topSongsArtistsId():
 
     if auth_token:
             sp = spotipy.Spotify(auth=auth_token['access_token'])
-            results = sp.current_user_top_tracks(limit=10,offset=0,time_range='medium_term')
+            results = sp.current_user_top_tracks(limit=10,offset=0,time_range=timeframe)
             #print(results)
             listTest = []
             for i in range(10):
@@ -62,7 +60,6 @@ def topSongsArtistsId():
             return listTest
     else:
             return "error"
-
 
 def topSongsGenre():
         cid = 'ee9fc019f133485296b33e83b6e674f9'
@@ -101,9 +98,7 @@ def topSongsGenre():
                         topSongsGenre.append(r["genres"][0])
         return topSongsGenre
 
-
-
-def topSongs():
+def topSongs(timeframe = 'short_term'):
         cid = 'ee9fc019f133485296b33e83b6e674f9'
         secret = '519f3c8ab9e646a5bdc484a6a643b2aa'
 
@@ -120,7 +115,7 @@ def topSongs():
 
         if auth_token:
                 sp = spotipy.Spotify(auth=auth_token['access_token'])
-                results = sp.current_user_top_tracks(limit=10,offset=0,time_range='medium_term')
+                results = sp.current_user_top_tracks(limit=10,offset=0,time_range=timeframe)
                 #print(results)
                 listTest = []
                 for i in range(10):
@@ -169,9 +164,7 @@ def recommendations(listTopSongs, listTopSongsID, listTopSongsArtistsID, listGen
         
         return recommendations
 
-        
-
-def topArtists():
+def topArtists(timeframe= 'short_term'):
         cid = 'ee9fc019f133485296b33e83b6e674f9'
         secret = '519f3c8ab9e646a5bdc484a6a643b2aa'
 
@@ -188,7 +181,7 @@ def topArtists():
 
         if auth_token:
                 sp = spotipy.Spotify(auth=auth_token['access_token'])
-                results = sp.current_user_top_artists(limit=10,offset=0,time_range='medium_term')
+                results = sp.current_user_top_artists(limit=10,offset=0,time_range=timeframe)
                 #print(results)
                 listTest = []
                 for i in range(10):

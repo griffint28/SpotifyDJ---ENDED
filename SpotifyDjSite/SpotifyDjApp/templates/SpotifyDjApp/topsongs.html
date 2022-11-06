@@ -183,6 +183,13 @@ button{
         <div class = "div1">
           <h1>
             Top Songs 
+
+            <select name="timeframe" id="timeframe", onchange="timeSelection();">
+              <option value="long_term">Long term</option>
+              <option value="medium_term">Medium term</option>
+              <option value="short_term">Short term</option>
+            </select>
+
           </h1>
         {%for item in list.songs%}
             <li>{{item}}</li>
@@ -216,7 +223,7 @@ button{
     <script>
 
         window.onSpotifyWebPlaybackSDKReady = () => {
-            const token = '[BQDUBsSSW5qdTZB90pA9gfl1nwvxIcZYaMhdLPNkt9KDY0sITVynGM-xHQFrJ5LT-Cc0_FeuE1R0YLhaK_uDs1dG0VBaVWEUYL9QZADRwLZ0UBKZ0b3wqFXCzTJtlAk9tva-m-orHnywnq1_IWsCpNNFYGjb-S18Ygo20h54cX6Aj1eDoWcE6FIqND_4aRXp4QGg]';
+            const token = 'BQCKlzhYX1hmxHcJqWBbgmViVkY2bF9Ii8YZCaqCEJv4kaFhXKlAiMNxmJ8wMY7Bnh82DeYrn0G8eNWmxcK7kHYatMgXzbeXSYvng3iW3_quApeQ7z2ibOXyPCHWDZvZRhrAzDa7cdwtTIk5SD9OeRST-gc_gXlwutRemKn_jAVsoPvwWxoWW2eTposktTav_bZB';
             const player = new Spotify.Player({
                 name: '362 Project',
                 getOAuthToken: cb => { cb(token); },
@@ -250,6 +257,41 @@ button{
             };
 
             player.connect();
+        }
+
+        function timeSelection(){
+          var timeframe = (document.getElementById("timeframe")).value;
+            $.ajax({
+                url: "topsongs",
+                method: "POST",
+                datatype: "json",
+                data: JSON.stringify({
+                    duration: timeframe
+                }),
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                success: (json) => {
+                    console.log("call successful")
+                    let response = json.message
+                    if (response === 0){
+                        console.log("sign up successful")
+                        window.location.href="{% url 'topsongs' %}"
+
+                    }else if (response === 1){
+                        alert("Username is already in use")
+                    }
+                    else{
+                        console.log("sign up unsuccessful")
+                        alert("Sign up unsuccessful, please use correct input")
+
+                    }
+                }, error: () =>{
+                    console.log("call unsuccessful")
+                    alert("the call to the back end was unsuccessful")
+                }
+
+            }) 
         }
     </script>
     </body>

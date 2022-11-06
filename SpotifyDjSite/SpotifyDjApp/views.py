@@ -71,32 +71,33 @@ def suggestions(request):
         listRecommendations = recommendations(listTopSongs, listTopSongsID, listTopSongsArtistsID, listGenre)
         return render(request, "../templates/SpotifyDjApp/suggestedList.html", {"list":listRecommendations})
 
-
 def registerPost(request):
         request_data = request.body
         request_dict = json.loads(request_data.decode('utf-8'))
         credentials = request_dict.get("credentials")
 
-        
-        user = userInfo.objects.create(
-                username=credentials.get("username"),
-                first_name=credentials.get("fname"),
-                last_name=credentials.get("lname"),
-                email=credentials.get("email"),
-                password=credentials.get("password")
-        )
-        # authenticate will return a user object if successful ...
-        if user is not None:
-        # user is successfully authenticated
-        # auth_login(request, user)
-                result = 0
-        else:
-        # this should never be the case
+        obj = userInfo.objects.filter(username__icontains=credentials.get("username")).first()
+        if obj is not None:
                 result = 1
+        else:
+                user = userInfo.objects.create(
+                        username=credentials.get("username"),
+                        first_name=credentials.get("fname"),
+                        last_name=credentials.get("lname"),
+                        email=credentials.get("email"),
+                        password=credentials.get("password")
+                )
+                # authenticate will return a user object if successful ...
+                if user is not None:
+                # user is successfully authenticated
+                # auth_login(request, user)
+                        result = 0
+                else:
+                # this should never be the case
+                        result = 2
 
-        print(result)
-        # if error happens make sure we catch that gracefully
-        # if there is a problem return either success or fail
+                # if error happens make sure we catch that gracefully
+                # if there is a problem return either success or fail
         return JsonResponse({"message": result})
 
 def loginGet(request):
@@ -111,13 +112,18 @@ def loginGet(request):
         usernameIn = info.get("username")
         passwordIn = info.get("password")
         try: 
-                obj = userInfo.objects.filter(username=usernameIn).first()
+                obj = userInfo.objects.filter(username__icontains=usernameIn).first()
                 if obj is None:
                         result = 1
                         return JsonResponse({"message": result})
-                result = 0
-                return JsonResponse({"message": result})
+                else:
+                        if ((obj.password).strip() == passwordIn.strip()):
+                                result = 0
+                                return JsonResponse({"message": result})
+                        else:
+                                result = 1
+                                return JsonResponse({"message":result})
         except:
-                result = 1
+                result = 2
                 return JsonResponse({"message": result})
         

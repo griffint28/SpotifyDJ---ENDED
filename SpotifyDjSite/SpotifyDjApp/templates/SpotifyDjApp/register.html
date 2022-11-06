@@ -341,34 +341,44 @@ img {
             "password": $("#password").val()
         }
 
-        $.ajax({
-            url: "registerPost",
-            method: "POST",
-            datatype: "json",
-            data: JSON.stringify({
-                credentials: signUpInfo
-            }),
-            headers: {
-                "X-CSRFToken": "{{ csrf_token }}"
-            },
-            success: (json) => {
-                console.log("call successful")
-                let response = json.message
-                if (response === 0){
-                    console.log("sign up successful")
-                    window.location.href="{% url 'topsongs' %}"
+        if (signUpInfo["username"] == "" || signUpInfo["fname"] == "" ||
+            signUpInfo["lname"] == "" || signUpInfo["email"] == "" || 
+            signUpInfo["password"] == ""
+            ){
+                alert("Sign up unsuccessful, please use correct input")
+        }else{
+            $.ajax({
+                url: "registerPost",
+                method: "POST",
+                datatype: "json",
+                data: JSON.stringify({
+                    credentials: signUpInfo
+                }),
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                success: (json) => {
+                    console.log("call successful")
+                    let response = json.message
+                    if (response === 0){
+                        console.log("sign up successful")
+                        window.location.href="{% url 'topsongs' %}"
 
-                }else{
-                    console.log("sign up unsuccessful")
-                    alert("Sign up unsuccessful, please use correct input")
+                    }else if (response === 1){
+                        alert("Username is already in use")
+                    }
+                    else{
+                        console.log("sign up unsuccessful")
+                        alert("Sign up unsuccessful, please use correct input")
 
+                    }
+                }, error: () =>{
+                    console.log("call unsuccessful")
+                    alert("the call to the back end was unsuccessful")
                 }
-            }, error: () =>{
-                console.log("call unsuccessful")
-                alert("the call to the back end was unsuccessful")
-            }
 
-        })
+            })
+        }
 
         signUpInfo = {
             "username": "",
