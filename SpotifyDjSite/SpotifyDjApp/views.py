@@ -26,8 +26,58 @@ def login(request):
         return render(request=request, template_name= "../templates/SpotifyDjApp/Login.html")
 
 def topsongs(request):
-        list = topSongs()
-        listId= topSongsID()
+        value = request.COOKIES.get('cookie_name')
+        if value is None:
+                print("error")
+        else:
+                print("username is " + value)
+                
+        list = topSongs('short_term')
+        listId= topSongsID('short_term')
+        listDance = []
+        listEnergy = []
+        listAcoustic = []
+        listLoudness = []
+        listCompiled = {}
+        
+        for song in listId:
+                topSongStats = songStats(song)
+                listDance.append(topSongStats["danceability"])
+                listEnergy.append(topSongStats["energy"])
+                listAcoustic.append(topSongStats["acousticness"])
+                listLoudness.append(topSongStats["loudness"])
+        listCompiled['songs'] = list
+        listCompiled['dance'] = listDance
+        listCompiled['energy'] = listEnergy
+        listCompiled['acoustic'] = listAcoustic
+        listCompiled['loud'] = listLoudness
+        return render(request, "../templates/SpotifyDjApp/topsongs.html", {"list":listCompiled})
+
+def topsongsm(request):
+        list = topSongs('medium_term')
+        listId= topSongsID('medium_term')
+        listDance = []
+        listEnergy = []
+        listAcoustic = []
+        listLoudness = []
+        listCompiled = {}
+        
+        for song in listId:
+                topSongStats = songStats(song)
+                listDance.append(topSongStats["danceability"])
+                listEnergy.append(topSongStats["energy"])
+                listAcoustic.append(topSongStats["acousticness"])
+                listLoudness.append(topSongStats["loudness"])
+        listCompiled['songs'] = list
+        listCompiled['dance'] = listDance
+        listCompiled['energy'] = listEnergy
+        listCompiled['acoustic'] = listAcoustic
+        listCompiled['loud'] = listLoudness
+        return render(request, "../templates/SpotifyDjApp/topsongs.html", {"list":listCompiled})
+
+def topsongsl(request):
+        list = topSongs(timeframe = 'long_term')
+        listId= topSongsID(timeframe = 'long_term')
         listDance = []
         listEnergy = []
         listAcoustic = []
@@ -68,8 +118,11 @@ def suggestions(request):
         listTopSongsID = topSongsID()
         listTopSongsArtistsID = topSongsArtistsId()
         listGenre = topSongsGenre()
-        listRecommendations = recommendations(listTopSongs, listTopSongsID, listTopSongsArtistsID, listGenre)
-        return render(request, "../templates/SpotifyDjApp/suggestedList.html", {"list":listRecommendations})
+        listRecommendationsID = recommendations(listTopSongs, listTopSongsID, listTopSongsArtistsID, listGenre)
+        dictRecommendations = {}
+        for songID in listRecommendationsID:
+                dictRecommendations[songID] = (getSongNameArtist(songID))
+        return render(request, "../templates/SpotifyDjApp/suggestedList.html", {"dictRec":dictRecommendations})
 
 def registerPost(request):
         request_data = request.body
@@ -119,7 +172,9 @@ def loginGet(request):
                 else:
                         if ((obj.password).strip() == passwordIn.strip()):
                                 result = 0
-                                return JsonResponse({"message": result})
+                                response = JsonResponse({"message": result})
+                                response.set_cookie("username", obj.username)
+                                return response
                         else:
                                 result = 1
                                 return JsonResponse({"message":result})
@@ -127,3 +182,20 @@ def loginGet(request):
                 result = 2
                 return JsonResponse({"message": result})
         
+def saveSong(request):
+        try:    
+                request_data = request.body
+                request_dict = json.loads(request_data.decode('utf-8'))
+                songID = request_dict.get("songInfo")
+                answer = saveSongSpotify(songID)
+                if answer == "saved":
+
+                        result =  0
+                        return JsonResponse({"message": result})
+                else:
+                        result =  1
+                        return JsonResponse({"message": result})  
+        except:
+                result = 1
+                return JsonResponse({"message": result})
+

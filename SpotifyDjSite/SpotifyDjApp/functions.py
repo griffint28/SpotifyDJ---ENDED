@@ -106,7 +106,7 @@ def topSongs(timeframe = 'short_term'):
                 client_id = cid,
                 client_secret = secret,
                 redirect_uri = "http://127.0.0.1:8008/SpotifyDjApp/spotify_callback",
-                scope = 'user-top-read'
+                scope = 'user-top-read, user-library-modify'
         )
 
         redirect_url = sp_auth.get_authorize_url()
@@ -159,8 +159,8 @@ def recommendations(listTopSongs, listTopSongsID, listTopSongsArtistsID, listGen
                 r = requests.get(BASE_URL + 'recommendations/' +
                         limit + market + seed_artists + seed_genres + seed_tracks, headers=headers)
                 r = r.json()
-                recommendations.append(r['tracks'][0]['name'] + " - " + r['tracks'][0]['artists'][0]['name'])
-
+                #print(r['tracks'][0])
+                recommendations.append(r['tracks'][0]['id'])
         
         return recommendations
 
@@ -190,6 +190,35 @@ def topArtists(timeframe= 'short_term'):
         else:
                 return "error"
 
+def getSongNameArtist(songID):     
+        cid = 'ee9fc019f133485296b33e83b6e674f9'
+        secret = '519f3c8ab9e646a5bdc484a6a643b2aa'
+
+        AUTH_URL = 'https://accounts.spotify.com/api/token'
+
+        # POST
+        auth_response = requests.post(AUTH_URL, {
+        'grant_type': 'client_credentials',
+        'client_id': cid,
+        'client_secret': secret,
+        })
+
+        # convert the response to JSON
+        auth_response_data = auth_response.json()
+
+        # save the access token
+        access_token = auth_response_data['access_token']
+
+        headers = {
+        'Authorization': 'Bearer {token}'.format(token=access_token)
+        }
+        BASE_URL = 'https://api.spotify.com/v1/'
+        r = requests.get(BASE_URL + 'tracks/' + songID, headers=headers)
+        r = r.json()
+        songAndArtists = r['name'] + " - " + r['album']['artists'][0]['name']
+
+        return songAndArtists
+
 def songStats(songId):
         cid = 'ee9fc019f133485296b33e83b6e674f9'
         secret = '519f3c8ab9e646a5bdc484a6a643b2aa'
@@ -217,3 +246,28 @@ def songStats(songId):
 
         r = requests.get(BASE_URL + 'audio-features/' + songId, headers=headers)
         return (r.json())
+
+def saveSongSpotify(songID):
+        cid = 'ee9fc019f133485296b33e83b6e674f9'
+        secret = '519f3c8ab9e646a5bdc484a6a643b2aa'
+
+        sp_auth = oauth2.SpotifyOAuth(
+                client_id = cid,
+                client_secret = secret,
+                redirect_uri = "http://127.0.0.1:8008/SpotifyDjApp/spotify_callback",
+                scope = 'user-top-read, user-library-modify'
+        )
+
+        redirect_url = sp_auth.get_authorize_url()
+        auth_token = sp_auth.get_access_token()  
+
+        if auth_token:
+                sp = spotipy.Spotify(auth=auth_token['access_token'])
+                songs = []
+                songs.append(songID)
+                results = sp.current_user_saved_tracks_add(tracks=songs)
+                return "saved"
+        else:
+                return "error"
+
+

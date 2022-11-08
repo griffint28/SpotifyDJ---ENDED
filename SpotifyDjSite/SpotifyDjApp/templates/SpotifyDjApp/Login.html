@@ -353,6 +353,7 @@ img {
                 let response = json.message
                 if (response === 0){
                     window.location.href="{% url 'topsongs' %}"
+
                 }else if(response === 1){
                     alert("Username or password incorrect")
                 }

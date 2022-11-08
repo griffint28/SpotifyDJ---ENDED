@@ -38,6 +38,15 @@ li {
   font-size: 16px;
 }
 
+line {
+  display: flex;
+  align-items: center;
+  padding: 17px 0;
+  box-sizing: border-box;
+  font-family: Sans-Serif;
+  font-size: 16px;
+}
+
 
 
 /* Element counter */
@@ -185,9 +194,10 @@ button{
             Top Songs 
 
             <select name="timeframe" id="timeframe", onchange="timeSelection();">
-              <option value="long_term">Long term</option>
-              <option value="medium_term">Medium term</option>
+              <option> Timeframe </option>
               <option value="short_term">Short term</option>
+              <option value="medium_term">Medium term</option>
+              <option value="long_term">Long term</option>
             </select>
 
           </h1>
@@ -196,26 +206,28 @@ button{
         {% endfor %}
       </div>
         <div class = "div2">
+        
         {%for item in list.dance%}
-            <li>{{item}}</li>
+            <line>{{item}}</line>
         {% endfor %}
         </div>
         <div class = "div3">
         {%for item in list.energy%}
-            <li>{{item}}</li>
+            <line>{{item}}</line>
         {% endfor %}
         </div>
         <div class = "div4">
         {%for item in list.acoustic%}
-            <li>{{item}}</li>
+            <line>{{item}}</line>
         {% endfor %}
         </div>
         <div class = "div5">
         {%for item in list.loud%}
-            <li>{{item}}</li>
+            <line>{{item}}</line>
         {% endfor %}
         </div>
         </h2>
+        <button onclick="checkCookie()" type="button" class="btn btn-dark btn-lg">check cookie</button>
         <h3>Try Songs</h3>
     <button id="togglePlay">Toggle Play</button>
 
@@ -261,37 +273,21 @@ button{
 
         function timeSelection(){
           var timeframe = (document.getElementById("timeframe")).value;
-            $.ajax({
-                url: "topsongs",
-                method: "POST",
-                datatype: "json",
-                data: JSON.stringify({
-                    duration: timeframe
-                }),
-                headers: {
-                    "X-CSRFToken": "{{ csrf_token }}"
-                },
-                success: (json) => {
-                    console.log("call successful")
-                    let response = json.message
-                    if (response === 0){
-                        console.log("sign up successful")
-                        window.location.href="{% url 'topsongs' %}"
-
-                    }else if (response === 1){
-                        alert("Username is already in use")
-                    }
-                    else{
-                        console.log("sign up unsuccessful")
-                        alert("Sign up unsuccessful, please use correct input")
-
-                    }
-                }, error: () =>{
-                    console.log("call unsuccessful")
-                    alert("the call to the back end was unsuccessful")
-                }
-
-            }) 
+          if (timeframe == "medium_term"){
+            window.location.href = "{% url 'topsongsm' %}"
+          }else if (timeframe == "long_term"){
+            window.location.href = "{% url 'topsongsl' %}"
+          }else{
+            window.location.href = "{% url 'topsongs' %}"
+          }
+        }
+        function checkCookie(){
+          let username = getCookie("username");
+          if (username != "") {
+            alert("Welcome again " + username);
+          } else {
+            alert("Error no cookie")
+          }
         }
     </script>
     </body>

@@ -1,15 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
     <header>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      {%  load static %}
+
+      <!-- jQuery first, then Popper.js, then Bootstrap JS, then Bootstrap icons -->
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js"> </script>
+      {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>#}
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>    <link rel="icon" href="https://aux2.iconspalace.com/uploads/pencilcase-1-icon-256.png">
         <style>
 
             /* List */
 
-body{
-  
-  background-image: linear-gradient(to right, rgb(54, 158, 232), rgb(116, 14, 132));
-  overflow: hidden;
+html { 
+  overflow-y: scroll;
 }
+body{
+  background-image: linear-gradient(to right, rgb(54, 158, 232), rgb(116, 14, 132));
+  overflow-y: scroll;
+  width:100%;
+}
+
 ul {
   counter-reset: index;  
   padding: 0;
@@ -27,8 +39,8 @@ li {
   box-sizing: border-box;
   font-family: Sans-Serif;
   font-size: 20px;
+  overflow-y: scroll;
 }
-
 
 /* Element counter */
 li::before {
@@ -41,10 +53,11 @@ li::before {
   font-variant-numeric: tabular-nums;
   align-self: flex-start;
   background-image: linear-gradient(to bottom, rgb(116, 14, 132), rgb(146, 15, 166));
-  background-attachment: fixed;
+  background-attachment: scroll;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  overflow-y: scroll;
 }
 
 
@@ -59,21 +72,19 @@ h2{
   position: fixed;
   top: 20%;
   width: 100%;
-  overflow: hidden;
+  overflow-y: scroll;
 }
 
 .logo{
   position: relative;
   right:-1345px;
   top: 40px;
-  overflow: hidden;
   
 }
 .player{
   position: relative;
   right:-1345px;
   top: 100px;
-  overflow: hidden;
 }
 
 .topnav {
@@ -83,7 +94,6 @@ h2{
     width: 100%;
     background-color: solid purple;
     border: 3px solid black;
-    overflow: hidden;
   }
 .topnav a {
     float: left;
@@ -115,7 +125,6 @@ h2{
         
     </header>
     
-    <body>
         <div class="topnav">
             <a href="{% url 'homepage' %}">HOME</a>
             <a href="{% url 'topsongs' %}">TOP SONGS</a>
@@ -128,14 +137,21 @@ h2{
         <div class = "logo">
           <img src ="../static/dj_app/media/logo.png" alt="SpotifyDJ Logo" width="175" height="175">
         </div>
+        <body>
         <h2>
-        
-        {%for item in list%}
-            <li>{{item}}</li>
+        {%for id, name in dictRec.items%}
+            <li>
+              {{name}}
+              <div>
+                <button onclick="saveSong('{{id}}');" type="button" class="btn btn-dark btn-lg">Save song</button>
+              </div> 
+            </li>
         {% endfor %}
         </h2>
+        </body>
         <div class = "player">
         <button id="togglePlay">Toggle Play</button>
+        </div>
 
         <script src="https://sdk.scdn.co/spotify-player.js"></script>
         <script>
@@ -175,7 +191,30 @@ h2{
     
                 player.connect();
             }
+            function saveSong(songID){
+              $.ajax({
+                url: "saveSong",
+                method: "PUT",
+                datatype: "json",
+                data: JSON.stringify({
+                    songInfo: songID
+                }),
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                success: (json) => {
+                    let response = json.message
+                    if (response === 0){
+                      alert("Song saved!")
+                    }
+                    else{
+                        alert("ERROR: Could not save song ")
+                    }
+                }, error: () =>{
+                    alert("the call to the back end was unsuccessful")
+                }
+
+            })
+            }
         </script>
-        </div>
-    </body>
 </html>
