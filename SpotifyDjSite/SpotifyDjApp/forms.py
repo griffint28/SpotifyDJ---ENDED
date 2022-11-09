@@ -13,3 +13,16 @@ class userForm(forms.ModelForm):
         class Meta:
             model = user
             fields = ("__all__")
+            
+class userSuggForm(forms.ModelForm):
+        def __init__(self, *args, **kwargs):
+            super(userSuggForm, self).__init__(*args, **kwargs)
+            ## add a "form-control" class to each form input
+            ## for enabling bootstrap
+            for name in self.fields.keys():
+                self.fields[name].widget.attrs.update({
+                'class': 'form-control',
+            })
+        class Meta:
+            model = user
+            fields = ("__all__")

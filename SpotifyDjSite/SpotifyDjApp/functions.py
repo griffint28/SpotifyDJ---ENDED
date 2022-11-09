@@ -6,6 +6,8 @@ import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 from spotipy import oauth2
 import requests
+from datetime import date
+import json
 
 
 
@@ -247,7 +249,7 @@ def songStats(songId):
         r = requests.get(BASE_URL + 'audio-features/' + songId, headers=headers)
         return (r.json())
 
-def saveSongSpotify(songID):
+def saveSongSpotify(songID, usernameIn):
         cid = 'ee9fc019f133485296b33e83b6e674f9'
         secret = '519f3c8ab9e646a5bdc484a6a643b2aa'
 
@@ -266,8 +268,33 @@ def saveSongSpotify(songID):
                 songs = []
                 songs.append(songID)
                 results = sp.current_user_saved_tracks_add(tracks=songs)
+                if (not(checkIfEntryInUserSugg(usernameIn))):
+                        result = userSuggestions.objects.create(
+                                username = usernameIn,
+                                posFeedback = {"Song ID" : songID},
+                                negFeedback = {"Bad Song ID" : ""},
+                                dateCaptured = date.today()
+                        )
+                else:
+                        user = userSuggestions.objects.filter(username__icontains=usernameIn).first()
+                        if user is None:
+                                return "error"
+                        else:
+                                oldSongIdSql = user.posFeedback["Song ID"]
+                                newSongIdSql = str(oldSongIdSql + ", " + songID)
+                                user = userSuggestions.objects.filter(username__icontains=usernameIn).first()
+                                user.posFeedback = {"Song ID" : newSongIdSql}  
+                                user.dateCaptured = date.today()                       
+                                user.save()
+                                return "saved"
+
                 return "saved"
         else:
                 return "error"
 
-
+def checkIfEntryInUserSugg(username):
+        userExist = userSuggestions.objects.filter(username__icontains=username).first()
+        if userExist is None:
+                return False
+        else:
+                return True

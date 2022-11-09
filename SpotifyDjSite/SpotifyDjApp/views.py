@@ -26,12 +26,12 @@ def login(request):
         return render(request=request, template_name= "../templates/SpotifyDjApp/Login.html")
 
 def topsongs(request):
-        value = request.COOKIES.get('cookie_name')
+        value = request.COOKIES.get("username")
         if value is None:
                 print("error")
         else:
-                print("username is " + value)
-                
+                print("username in top songs is " + value)
+
         list = topSongs('short_term')
         listId= topSongsID('short_term')
         listDance = []
@@ -173,7 +173,7 @@ def loginGet(request):
                         if ((obj.password).strip() == passwordIn.strip()):
                                 result = 0
                                 response = JsonResponse({"message": result})
-                                response.set_cookie("username", obj.username)
+                                response.set_cookie(key="username", value=obj.username)
                                 return response
                         else:
                                 result = 1
@@ -184,12 +184,13 @@ def loginGet(request):
         
 def saveSong(request):
         try:    
+                username = request.COOKIES.get("username")
                 request_data = request.body
                 request_dict = json.loads(request_data.decode('utf-8'))
                 songID = request_dict.get("songInfo")
-                answer = saveSongSpotify(songID)
+                answer = saveSongSpotify(songID, username)
+                print(answer)
                 if answer == "saved":
-
                         result =  0
                         return JsonResponse({"message": result})
                 else:
