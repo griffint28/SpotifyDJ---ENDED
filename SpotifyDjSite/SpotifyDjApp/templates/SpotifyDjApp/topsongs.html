@@ -14,17 +14,32 @@
 
             /* List */
 
+
+
 body{
   
   background-image: linear-gradient(to right, rgb(54, 158, 232), rgb(116, 14, 132));
   overflow: hidden;
+
+  
+}
+
+.embeds {
+  position: absolute;
+  left: 700px;
+  top: 50px;
+  vertical-align: center;
+
+ 
+ 
 }
 ul {
   counter-reset: index;  
-  padding: 0;
+  padding: 500px;
   max-width: 300px;
   column-count: 3;
   column-gap: 40px;
+  line-height: normal;
 }
 
 /* List element */
@@ -36,15 +51,7 @@ li {
   box-sizing: border-box;
   font-family: Sans-Serif;
   font-size: 16px;
-}
 
-line {
-  display: flex;
-  align-items: center;
-  padding: 17px 0;
-  box-sizing: border-box;
-  font-family: Sans-Serif;
-  font-size: 16px;
 }
 
 
@@ -135,7 +142,7 @@ button{
 }
 
 .div1{
-  width: 30%;
+  width: 100%;
   float: left;
   
 
@@ -155,23 +162,23 @@ button{
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.div2{
-  width: 15%;
-  float:left;
-}
-.div3{
-  width: 15%;
-  float: left;
 
+.dropdown {
+  display: inline-block;
+  position: relative;
 }
-.div4{
-  width: 15%;
-  float:left;
+.dropdown-options {
+  display: none;
+  position: absolute;
+  overflow: auto;
+  
 }
-.div5{
-  width: 15%;
-  float: left;
+
+.dropdown:hover .dropdown-options {
+  display: block;
+ 
 }
+
 
         </style>
         <meta http-equiv="CONTENT-TYPE" content="text/html; charset=utf-8">
@@ -179,6 +186,10 @@ button{
     </header>
     
     <body>
+
+      
+      
+
         <div class="topnav">
           <a href="{% url 'homepage' %}">HOME</a>
           <a href="{% url 'topartists' %}">TOP ARTISTS</a>
@@ -194,82 +205,119 @@ button{
             Top Songs 
 
             <select name="timeframe" id="timeframe", onchange="timeSelection();">
-              <option> Timeframe </option>
-              <option value="short_term">Short term</option>
-              <option value="medium_term">Medium term</option>
               <option value="long_term">Long term</option>
+              <option value="medium_term">Medium term</option>
+              <option value="short_term">Short term</option>
             </select>
 
-          </h1>
-        {%for item in list.songs%}
-            <li>{{item}}</li>
-        {% endfor %}
-      </div>
-        <div class = "div2">
-        
-        {%for item in list.dance%}
-            <line>{{item}}</line>
-        {% endfor %}
-        </div>
-        <div class = "div3">
-        {%for item in list.energy%}
-            <line>{{item}}</line>
-        {% endfor %}
-        </div>
-        <div class = "div4">
-        {%for item in list.acoustic%}
-            <line>{{item}}</line>
-        {% endfor %}
-        </div>
-        <div class = "div5">
-        {%for item in list.loud%}
-            <line>{{item}}</line>
-        {% endfor %}
-        </div>
-        </h2>
-        <button onclick="checkCookie()" type="button" class="btn btn-dark btn-lg">check cookie</button>
-        <h3>Try Songs</h3>
-    <button id="togglePlay">Toggle Play</button>
 
-    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+          </h1>
+
+       
+      
+      <li>
+        <div class="dropdown">
+          <em>{{list.songs.0}}</em>
+          <div class="dropdown-options">
+            <option>Dance: {{list.dance.0}} Energy: {{list.energy.0}} Acoustic: {{list.acoustic.0}} Loud: {{list.loud.0}} </option>
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <div class="dropdown">
+          <em>{{list.songs.1}}</em>
+          <div class="dropdown-options">
+            <option>Dance: {{list.dance.1}} Energy: {{list.energy.1}} Acoustic: {{list.acoustic.1}} Loud: {{list.loud.1}}</option>
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <div class="dropdown">
+          <em>{{list.songs.2}}</em>
+          <div class="dropdown-options">
+            <option>Dance: {{list.dance.2}} Energy: {{list.energy.2}} Acoustic: {{list.acoustic.2}} Loud: {{list.loud.2}}</option>
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <div class="dropdown">
+          <em>{{list.songs.3}}</em>
+          <div class="dropdown-options">
+            <option>Dance: {{list.dance.3}} Energy: {{list.energy.3}} Acoustic: {{list.acoustic.3}} Loud: {{list.loud.3}}</option>
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <div class="dropdown">
+          <em>{{list.songs.4}}</em>
+          <div class="dropdown-options">
+            <option>Dance: {{list.dance.4}} Energy: {{list.energy.4}} Acoustic: {{list.acoustic.4}} Loud: {{list.loud.4}}</option>
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <div class="dropdown">
+          <em>{{list.songs.5}}</em>
+          <div class="dropdown-options">
+            <option>Dance: {{list.dance.5}} Energy: {{list.energy.5}} Acoustic: {{list.acoustic.5}} Loud: {{list.loud.5}}</option>
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <div class="dropdown">
+          <em>{{list.songs.6}}</em>
+          <div class="dropdown-options">
+            <option>Dance: {{list.dance.6}} Energy: {{list.energy.6}} Acoustic: {{list.acoustic.6}} Loud: {{list.loud.6}}</option>
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <div class="dropdown">
+          <em>{{list.songs.7}}</em>
+          <div class="dropdown-options">
+            <option>Dance: {{list.dance.7}} Energy: {{list.energy.7}} Acoustic: {{list.acoustic.7}} Loud: {{list.loud.7}}</option>
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <div class="dropdown">
+          <em>{{list.songs.8}}</em>
+          <div class="dropdown-options">
+            <option>Dance: {{list.dance.8}} Energy: {{list.energy.8}} Acoustic: {{list.acoustic.8}} Loud: {{list.loud.8}}</option>
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <div class="dropdown">
+          <em>{{list.songs.9}}</em>
+          <div class="dropdown-options">
+            <option>Dance: {{list.dance.9}} Energy: {{list.energy.9}} Acoustic: {{list.acoustic.9}} Loud: {{list.loud.9}}</option>
+          </div>
+        </div>
+      </li>
+      <div class = "embeds">
+        <iframe src="https://open.spotify.com/embed?uri=spotify:track:{{list.ID.0}}" width="250" height="100" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+        <iframe src="https://open.spotify.com/embed?uri=spotify:track:{{list.ID.1}}" width="250" height="100" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+        <iframe src="https://open.spotify.com/embed?uri=spotify:track:{{list.ID.2}}" width="250" height="100" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+        <iframe src="https://open.spotify.com/embed?uri=spotify:track:{{list.ID.3}}" width="250" height="100" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+        <iframe src="https://open.spotify.com/embed?uri=spotify:track:{{list.ID.4}}" width="250" height="100" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+        <iframe src="https://open.spotify.com/embed?uri=spotify:track:{{list.ID.5}}" width="250" height="100" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+        <iframe src="https://open.spotify.com/embed?uri=spotify:track:{{list.ID.6}}" width="250" height="100" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+        <iframe src="https://open.spotify.com/embed?uri=spotify:track:{{list.ID.7}}" width="250" height="100" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+        <iframe src="https://open.spotify.com/embed?uri=spotify:track:{{list.ID.8}}" width="250" height="100" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+        <iframe src="https://open.spotify.com/embed?uri=spotify:track:{{list.ID.9}}" width="250" height="100" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+      </div>
     <script>
 
-        window.onSpotifyWebPlaybackSDKReady = () => {
-            const token = 'BQCKlzhYX1hmxHcJqWBbgmViVkY2bF9Ii8YZCaqCEJv4kaFhXKlAiMNxmJ8wMY7Bnh82DeYrn0G8eNWmxcK7kHYatMgXzbeXSYvng3iW3_quApeQ7z2ibOXyPCHWDZvZRhrAzDa7cdwtTIk5SD9OeRST-gc_gXlwutRemKn_jAVsoPvwWxoWW2eTposktTav_bZB';
-            const player = new Spotify.Player({
-                name: '362 Project',
-                getOAuthToken: cb => { cb(token); },
-                volume: 0.5
-            });
-
-            // Ready
-            player.addListener('ready', ({ device_id }) => {
-                console.log('Ready with Device ID', device_id);
-            });
-
-            // Not Ready
-            player.addListener('not_ready', ({ device_id }) => {
-                console.log('Device ID has gone offline', device_id);
-            });
-
-            player.addListener('initialization_error', ({ message }) => {
-                console.error(message);
-            });
-
-            player.addListener('authentication_error', ({ message }) => {
-                console.error(message);
-            });
-
-            player.addListener('account_error', ({ message }) => {
-                console.error(message);
-            });
-
-            document.getElementById('togglePlay').onclick = function() {
-              player.togglePlay();
-            };
-
-            player.connect();
-        }
 
         function timeSelection(){
           var timeframe = (document.getElementById("timeframe")).value;
