@@ -10,6 +10,13 @@ body{
   background-image: linear-gradient(to right, rgb(54, 158, 232), rgb(116, 14, 132));
   overflow: hidden;
 }
+.embeds {
+  position: absolute;
+  left: 400px;
+  top: 200px;
+  vertical-align: center;
+}
+
 ul {
   counter-reset: index;  
   padding: 0;
@@ -69,12 +76,7 @@ h2{
   overflow: hidden;
   
 }
-.player{
-  position: relative;
-  right:-1345px;
-  top: 100px;
-  overflow: hidden;
-}
+
 
 .topnav {
     position: fixed;
@@ -129,53 +131,28 @@ h2{
           <img src = "../static/dj_app/media/logo.png" alt="SpotifyDJ Logo" width="175" height="175">
         </div>
         <h2>
-        
-        {%for item in list%}
-            <li>{{item}}</li>
-        {% endfor %}
+        <li>{{list.artist.0}}</li>
+        <li>{{list.artist.1}}</li>
+        <li>{{list.artist.2}}</li>
+        <li>{{list.artist.3}}</li>
+        <li>{{list.artist.4}}</li>
+        <li>{{list.artist.5}}</li>
+        <li>{{list.artist.6}}</li>
+        <li>{{list.artist.7}}</li>
+        <li>{{list.artist.8}}</li>
+        <li>{{list.artist.9}}</li>
         </h2>
-        <div class = "player">
-        <button id="togglePlay">Toggle Play</button>
-
-        <script src="https://sdk.scdn.co/spotify-player.js"></script>
-        <script>
-            window.onSpotifyWebPlaybackSDKReady = () => {
-                const token = 'BQDugarjw8IVePbxoSjaSKIpX68bMqlFsXh1toXX8-fB_RMblgn5o0_fumaYD9MjFyXr4sEF8f4W-G2b8JiD4jpff6EzJODKS7_M7eFjUh-zC6l4N4lCsx655eXQuKSHv7riX8VnQlftNE3nfDNuY_LfFLvwjrNSLJlflmZo7vM5g-lR56E2kweRPT_jKw51LQN_';
-                const player = new Spotify.Player({
-                    name: 'Web Playback SDK Quick Start Player',
-                    getOAuthToken: cb => { cb(token); },
-                    volume: 0.5
-                });
-    
-                // Ready
-                player.addListener('ready', ({ device_id }) => {
-                    console.log('Ready with Device ID', device_id);
-                });
-    
-                // Not Ready
-                player.addListener('not_ready', ({ device_id }) => {
-                    console.log('Device ID has gone offline', device_id);
-                });
-    
-                player.addListener('initialization_error', ({ message }) => {
-                    console.error(message);
-                });
-    
-                player.addListener('authentication_error', ({ message }) => {
-                    console.error(message);
-                });
-    
-                player.addListener('account_error', ({ message }) => {
-                    console.error(message);
-                });
-    
-                document.getElementById('togglePlay').onclick = function() {
-                  player.togglePlay();
-                };
-    
-                player.connect();
-            }
-        </script>
+        <div class = "embeds">
+          <iframe src="https://open.spotify.com/embed?uri=spotify:artist:{{list.ID.0}}" width="300" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+          <iframe src="https://open.spotify.com/embed?uri=spotify:artist:{{list.ID.1}}" width="300" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+          <iframe src="https://open.spotify.com/embed?uri=spotify:artist:{{list.ID.2}}" width="300" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+          <iframe src="https://open.spotify.com/embed?uri=spotify:artist:{{list.ID.3}}" width="300" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+          <iframe src="https://open.spotify.com/embed?uri=spotify:artist:{{list.ID.4}}" width="300" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+          <iframe src="https://open.spotify.com/embed?uri=spotify:artist:{{list.ID.5}}" width="300" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+          <iframe src="https://open.spotify.com/embed?uri=spotify:artist:{{list.ID.6}}" width="300" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+          <iframe src="https://open.spotify.com/embed?uri=spotify:artist:{{list.ID.7}}" width="300" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+          <iframe src="https://open.spotify.com/embed?uri=spotify:artist:{{list.ID.8}}" width="300" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+          <iframe src="https://open.spotify.com/embed?uri=spotify:artist:{{list.ID.9}}" width="300" height="200" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
         </div>
     </body>
 </html>
