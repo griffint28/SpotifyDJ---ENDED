@@ -163,7 +163,9 @@ def recommendations(listTopSongs, listTopSongsID, listTopSongsArtistsID, listGen
                 'Authorization': 'Bearer {token}'.format(token=access_token)
         }
         #setting blank list of song ids for recommendations
+        list = {}
         recommendations = []
+        recIDs = []
         for i in range(len(listTopSongs)):  
                 #extra info for setting url that might have variable changes            
                 limit = '?limit=1'
@@ -179,7 +181,13 @@ def recommendations(listTopSongs, listTopSongsID, listTopSongsArtistsID, listGen
                 r = r.json()
                 
                 #append the id of recommended songs 
-                recommendations.append(r['tracks'][0]['id'])
+                #appends id to display iframe
+                recommendations.append(r['tracks'][0]['name'] + " - " + r['tracks'][0]['artists'][0]['name'])
+                recIDs.append(r['tracks'][0]['id'])
+                list['recommendations'] = recommendations
+                list['ID'] = recIDs
+        
+        return list
         
         return recommendations
 
@@ -203,10 +211,15 @@ def topArtists(timeframe= 'short_term'):
                 sp = spotipy.Spotify(auth=auth_token['access_token'])
                 results = sp.current_user_top_artists(limit=10,offset=0,time_range=timeframe)
                 #append the names of artists to return
-                listTest = []
+                list = {}
+                artist = []
+                id =[]
                 for i in range(10):
-                        listTest.append(results['items'][i]['name'])
-                return listTest
+                        artist.append(results['items'][i]['name'])
+                        id.append(results['items'][i]['id'])
+                list['artist'] = artist
+                list['ID'] = id
+                return list
         else:
                 return "error"
 
