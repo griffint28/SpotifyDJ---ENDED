@@ -54,6 +54,7 @@ def topsongs(request):
         listCompiled['energy'] = listEnergy
         listCompiled['acoustic'] = listAcoustic
         listCompiled['loud'] = listLoudness
+        listCompiled['ID'] = listId
         #return and display page, with json containing top song info
         return render(request, "../templates/SpotifyDjApp/topsongs.html", {"list":listCompiled})
 
